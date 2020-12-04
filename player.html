@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Player</title>
+    <link rel="icon" href="logo/sound.png" type="image/x-icon">
+    <style>
+        body{
+        background:url(photo/back4.jpg)no-repeat;background-position:fixed;background-size:cover;margin-bottom:80px;
+        }
+        .songtitles{
+            color:whitesmoke;width:280px;background-color:black;text-align: center;
+            font-family:Coronetscript, cursive;height:30px;border-radius:10px;
+            }
+        .plays,.pre,.next
+        {
+            cursor: pointer;border-radius: 30%;background-color:black;
+        }
+        .seeks{
+        width: 310px;height: 5px;background-color:whitesmoke;border-radius:50px;
+        cursor: pointer;display: flex;
+   
+    }
+    .fills
+    {
+        height: 5px;background-color:royalblue;border-radius:20px;
+    }
+    .handles{
+        width:8px ;height: 5px;background-color: royalblue;border-radius: 50%;
+        margin-left: -5px;transform: scale(2);
+    }
+    .tim{
+        color: whitesmoke;font-family:Coronetscript, cursive;font-size:11px;margin-top: 5px;
+    }
+    .min,.spe,.add,.pl,.re{
+       
+        cursor: pointer;
+        border-radius: 30%;
+        background-color: black;
+    }
+    .card{
+        background:url(photo/ad.jpg)no-repeat;;background-size:cover;
+        border: 1px solid black;-moz-box-shadow: 0 0 5px 5px black;
+-webkit-box-shadow: 0 0 5px 5px black;
+box-shadow: 0 0 5px 5px black;
+    }
+    
+    </style>
+  </head>
+  <body>
+      <br>
+      <br>
+     <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="card" style="width: 24rem;">
+                <div id="image">
+                    <img src="photo/b.jpg" class="card-img-top" alt="..." style="height: 300px;">
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="player">
+                        <div id="songtitle" class="songtitles">
+                    </div>
+                </div>
+            </div><br>
+            <div class="d-flex justify-content-center">
+            <div class="buttons">
+                <button class="pre" onclick="prev()"><img src="logo/back.png"></button>
+                <button class="plays" id="play" onclick="playorpause()"><img src="logo/signs.png"></button>
+                <button class="next" onclick="next()"><img src="logo/button.png"></button>
+            </div>
+        </div>
+<br>
+    <div class="d-flex justify-content-center">
+        <div class="seeks"  id="seek" onclick="forward()">
+            <div  class="fills" id="fill"></div>
+            <div class="handles" id="handle"></div>
+        </div>
+    </div>
+
+    <div id="currentTime" class="tim">00:00/00:00
+    </div><br>
+
+    <div id="volume" class="vol">
+        <div class="row">
+           
+        <div class="col-sm-12">
+            <div class="d-flex justify-content-center">
+                <button  id="repeat" class="re" onclick="repeat()"><img src="logo/repeat.png" ></button>&nbsp;
+                <button  id="minus" class="min" onclick="decrease()"><img src="logo/lines.png" ></button>&nbsp;
+                <button  id="speaker" class="spe"><img src="logo/communications.png" ></button>&nbsp;
+                <button  id="plus" class="add" onclick="increase()"><img src="logo/signs (1).png" ></button>&nbsp;
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+  <script>
+    var songs=["musi/music1.mp3","musi/music2.mp3","musi/music3.mp3","musi/music4.mp3","musi/music5.mp3",
+    "musi/music6.mp3","musi/music7.mp3","musi/music8.mp3","musi/music9.mp3","musi/music10.mp3"];
+    var poster=["photo/b.jpg"];
+    var songtitle=document.getElementById("songtitle");
+    var fillbar=document.getElementById("fill");
+    var currentTime=document.getElementById("currentTime");
+   
+    var song=new Audio();
+    var currentsong=0;
+    window.onload=playsong;
+
+  function playsong()
+  {
+    song.src=songs[currentsong];
+    songtitle.textContent=songs[currentsong];
+   
+    song.play();
+    $("#image img").attr("src","photo/gif2.gif");
+  }
+
+
+  function playorpause()
+  {
+    if(song.paused)
+    {
+      song.play();
+      $("#play img").attr("src","logo/signs.png");
+      $("#image img").attr("src","photo/gif2.gif");
+
+    }
+    else{
+      song.pause();
+      $("#play img").attr("src","logo/arro.png");
+      $("#image img").attr("src","photo/b.jpg");
+    }
+    }
+    function next()
+    {
+      currentsong++;
+      console.log(currentsong);
+      if(currentsong>=10)
+      {
+        currentsong=0;
+      }
+      playsong();
+     
+      $("#play img").attr("src","logo/signs.png");
+      $("#image img").attr("src",poster[currentsong]);
+     
+    }
+
+    function prev()
+    {
+      --currentsong;
+      if(currentsong<0)
+      {
+        currentsong=10;
+      }
+      playsong();
+      $("#play img").attr("src","logo/signs.png");
+      $("#image img").attr("src",poster[currentsong]);
+     
+     
+    }
+    function repeat()
+    {
+      song.pause();
+      song.src=songs[currentsong];
+    song.play();
+    }
+    function decrease()
+    {
+      song.volume-=0.15;
+    }
+
+
+    function increase()
+    {
+      song.volume+=0.15;
+    }
+
+    song.addEventListener('timeupdate',function()
+    {
+      var position=song.currentTime / song.duration;
+      fillbar.style.width=position * 100 + '%';
+      convertTime(Math.round(song.currentTime));
+      if(song.ended){
+        next();
+    }});
+
+
+    function convertTime(seconds)
+    {
+      var min =Math.floor(seconds / 60);
+      var sec=seconds % 60;
+      min =(min<10) ? "0" +min:min;
+      sec =(sec<10) ? "0" +sec:sec;
+    currentTime.textContent=min + ":" +sec;
+      totalTime(Math.round(song.duration));
+    }
+
+
+    function totalTime(seconds)
+    {
+      var min =Math.floor(seconds / 60);
+      var sec=seconds % 60;
+      min =(min<10) ? "0" +min:min;
+      sec =(sec<10) ? "0" +sec:sec;
+      
+      currentTime.textContent +="/" +min + ":" +sec;
+    }
+
+    song.ontimeupdate=function(e)
+      { 
+        document.querySelector("#seek").onclick=function(e){
+        var forward=e.offsetX/this.offsetWidth;
+        song.currentTime=forward*song.duration;
+      }
+      }
+   function update()
+    {
+        var input=document.createElement("INPUT");
+     input.type="file";
+        input.accept="mp3"
+        input.click();
+    }
+    </script>
+
+</html>
